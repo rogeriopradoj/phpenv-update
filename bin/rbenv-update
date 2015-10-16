@@ -20,6 +20,9 @@ is_phpenv_git_repo() {
 
 phpenv_update() {
   echo -e "updating $1" | colorize_output
+  CWD=$(pwd)
+  cd $(phpenv root)
+  git stash &>/dev/null
   if is_phpenv_git_repo; then
     if [ "$1" == "phpenv" ]; then
         PHPENV_LOCAL_REPO="$(phpenv root)/sources/phpenv"
@@ -36,6 +39,7 @@ phpenv_update() {
   else
     echo -e "Not an phpenv git repo; skipping..." | indent_output
   fi
+  cd $CWD
   echo
 }
 
